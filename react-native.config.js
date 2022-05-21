@@ -1,3 +1,5 @@
+console.error('react-native-mo-fontlink: react-native.config.js');
+
 module.exports = {
   dependency: {
     platforms: {

@@ -18,8 +18,7 @@ export async function getPostscriptName(path: string): Promise<string | undefine
 if (require.main === module) {
   (async () => {
 
-    console.log('XXXXXXXXX fontlink.ts');
-    console.log(process.cwd());
+    console.error(`react-native-mo-fontlink: fontlink.ts [cwd: ${process.cwd()}]`);
 
 
     // [ ] revert yarn: plist, shelljs, fontname
