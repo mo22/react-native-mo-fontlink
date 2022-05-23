@@ -1,6 +1,6 @@
 {
   "name": "react-native-mo-fontlink",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "react-native automatically check and link fonts",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,9 +22,6 @@
     "url": "https://github.com/mo22/react-native-mo-fontlink/issues"
   },
   "homepage": "https://github.com/mo22/react-native-mo-fontlink#readme",
-  "scripts": {
-    "postinstall": "echo remember to run node node_modules/react-native-mo-versioning/link.js postlink 1>&2"
-  },
   "dependencies": {
     "@react-native-community/cli-types": "^8.0.0",
     "@types/react-native": "^0.67.7",
