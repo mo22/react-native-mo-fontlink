@@ -1,5 +1,6 @@
 console.error('react-native-mo-fontlink: react-native.config.js');
 
+/** @type {import('@react-native-community/cli-types').Config} */
 module.exports = {
   dependency: {
     platforms: {
@@ -7,8 +8,8 @@ module.exports = {
         scriptPhases: [
           {
             name: '[react-native-mo-fontlink] Link fonts',
-            path: 'node ../node_modules/react-native-mo-fontlink/lib/fontlink.js',
-            execution_position: 'before_compile',
+            path: './fontlink-ios.sh',
+            execution_position: 'after_compile',
           },
         ],
       },

@@ -26,6 +26,8 @@
     "postinstall": "echo remember to run node node_modules/react-native-mo-versioning/link.js postlink 1>&2"
   },
   "dependencies": {
+    "@react-native-community/cli-types": "^8.0.0",
+    "@types/react-native": "^0.67.7",
     "fontname": "^1.0.0",
     "plist": "^3.0.5",
     "shelljs": "^0.8.5"
