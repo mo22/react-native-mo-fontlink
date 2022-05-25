@@ -12,8 +12,8 @@ module.exports = {
           {
             name: '[react-native-mo-fontlink] Link fonts',
             // must be a shell script
-            // path: 'node ./lib/fontlink.js',
-            path: './fontlink-ios.sh',
+            path: 'node ./lib/fontlink.js',
+            // path: './fontlink-ios.sh',
             execution_position: 'after_compile',
           },
         ],
