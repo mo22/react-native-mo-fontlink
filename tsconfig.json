@@ -4,12 +4,17 @@
     "outDir": "lib",
     "sourceMap": true,
     "jsx": "react",
-    "lib": ["es6"],
+    "lib": [
+      "es6"
+    ],
     "moduleResolution": "node",
+    "module": "CommonJS",
     "strict": true,
     "skipLibCheck": true,
     "target": "esnext"
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "compileOnSave": true
 }

@@ -1,5 +1,3 @@
-console.error('react-native-mo-fontlink: react-native.config.js');
-
 // this is called via main podfile
 // via node ./node_modules/.bin/react-native config
 // requires an xcodeproj in this project.
@@ -13,8 +11,8 @@ module.exports = {
         scriptPhases: [
           {
             name: '[react-native-mo-fontlink] Link fonts',
-            path: './fontlink-ios.sh',
-            execution_position: 'before_compile',
+            path: 'node ./lib/fontlink.js',
+            execution_position: 'after_compile',
           },
         ],
       },
