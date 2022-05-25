@@ -18,7 +18,7 @@ export async function getPostscriptName(path: string): Promise<string | undefine
 if (require.main === module) {
   (async () => {
 
-    console.error(`react-native-mo-fontlink: fontlink.ts [cwd: ${process.cwd()}]`);
+    // console.error(`react-native-mo-fontlink: fontlink.ts [cwd: ${process.cwd()}]`);
 
 
     // [ ] revert yarn: plist, shelljs, fontname
@@ -38,11 +38,11 @@ if (require.main === module) {
     // question: which fonts?
 
 
-    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+    // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+    // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+    // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+    // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+    // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 
     // cwd: is ios
 
@@ -50,7 +50,7 @@ if (require.main === module) {
     if (!process.env.UNLOCALIZED_RESOURCES_FOLDER_PATH) throw new Error(`UNLOCALIZED_RESOURCES_FOLDER_PATH missing`);
     const assetPath = process.env.TARGET_BUILD_DIR + '/' + process.env.UNLOCALIZED_RESOURCES_FOLDER_PATH;
     if (!fs.existsSync(assetPath)) throw new Error(`assetPath not found: ${assetPath}`);
-    console.log('assetPath', assetPath);
+    // console.log('assetPath', assetPath);
 
     const addPlistFonts = new Set<string>();
     for (const file of shelljs.ls('../assets/fonts/*')) {
@@ -73,7 +73,7 @@ if (require.main === module) {
     ]));
     const plistNew = plist.build(plistObj);
     if (plistOrig !== plistNew) {
-      console.log('plist changed!');
+      // console.log('plist changed!');
       fs.writeFileSync(process.env.INFOPLIST_FILE!, plistNew);
     }
 

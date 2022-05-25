@@ -1,4 +1,2 @@
 #!/usr/bin/env bash
-
-echo "fontlink-ios"
-node lib/fontlink.js
+node ../node_modules/react-native-mo-fontlink/lib/fontlink.js
