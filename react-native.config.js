@@ -11,7 +11,8 @@ module.exports = {
         scriptPhases: [
           {
             name: '[react-native-mo-fontlink] Link fonts',
-            path: 'node ./lib/fontlink.js',
+            // path: 'node ./lib/fontlink.js',
+            path: './fontlink-ios.sh',
             execution_position: 'after_compile',
           },
         ],
