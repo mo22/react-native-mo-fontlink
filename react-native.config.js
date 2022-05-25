@@ -1,6 +1,8 @@
-// console.error('react-native-mo-fontlink: react-native.config.js');
+console.error('react-native-mo-fontlink: react-native.config.js');
 
-// this is called via podspec?!
+// this is called via main podfile
+// via node ./node_modules/.bin/react-native config
+// requires an xcodeproj in this project.
 
 /** @type {import('@react-native-community/cli-types').Config} */
 module.exports = {
