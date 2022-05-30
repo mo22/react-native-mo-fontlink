@@ -45,13 +45,19 @@ if (require.main === module) {
   }
 
   // walk assetPath +'/assets/' recursively looking for .otf or .ttf files and move them to the correct place
+  // @TODO: this does not work for simulator builds as assets are not bundled here.
   {
-    const files = walk(path.join(assetPath, 'assets'));
-    for (const file of files) {
-      if (isFontFile(file)) {
-        console.log('MOVE', file);
-        fs.renameSync(file, path.join(assetPath, path.basename(file)));
+    const assetsPath = path.join(assetPath, 'assets');
+    if (fs.statSync(assetsPath).isDirectory()) {
+      const files = walk(assetsPath);
+      for (const file of files) {
+        if (isFontFile(file)) {
+          console.log('MOVE', file);
+          fs.renameSync(file, path.join(assetPath, path.basename(file)));
+        }
       }
+    } else {
+      console.log('WARNING: assets not copied, not bundled?');
     }
   }
 
