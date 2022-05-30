@@ -77,7 +77,6 @@ if (require.main === module) {
     }
 
     // walk assetPath +'/assets/' recursively looking for .otf or .ttf files and move them to the correct place
-    // @TODO: this does not work for simulator builds as assets are not bundled here.
     {
       const assetsPath = path.join(assetPath, 'assets');
       if (fs.existsSync(assetsPath)) {
@@ -90,7 +89,6 @@ if (require.main === module) {
         }
       } else {
         console.log('WARNING: assets not copied, not bundled? trying to fetch from bundler');
-        console.log('XXXXXXXX', process.env.TARGET_BUILD_DIR);
         await retrieveFontAssetsFromBundler({
           assetPath: assetPath,
         });
