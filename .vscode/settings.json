@@ -1,7 +1,11 @@
 {
   "editor.formatOnSave": true,
   "editor.acceptSuggestionOnEnter": "smart",
-  "editor.quickSuggestions": true,
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on",
+    "other": "on"
+  },
   "javascript.preferences.quoteStyle": "single",
   "typescript.preferences.quoteStyle": "single",
   "typescript.format.enable": true,
