@@ -1,23 +1,15 @@
 
 afterEvaluate {
-    System.err.println("android.libraryVariants=${android.libraryVariants}")
-    System.err.println("android.applicationVariants=${android.applicationVariants}")
     def isAndroidLibrary = plugins.hasPlugin("com.android.library")
-    System.err.println("isAndroidLibrary=${isAndroidLibrary}")
     def variants = isAndroidLibrary ? android.libraryVariants : android.applicationVariants
     variants.all { def variant ->
 
-        // Create variant and target names
         def targetName = variant.name.capitalize()
         def targetPath = variant.dirName
 
-        // packageApplication for Android plugin 3.x
         def packageTask = variant.hasProperty("packageApplication")
             ? variant.packageApplicationProvider.get()
             : tasks.findByName("package${targetName}")
-        // if (variant.hasProperty("packageLibrary")) {
-        //     packageTask = variant.packageLibrary
-        // }
         System.err.println("XXX packageTask: ${packageTask}")
 
         // React js bundle directories
@@ -25,6 +17,8 @@ afterEvaluate {
         def resourcesDir = file("$buildDir/generated/res/react/${targetPath}")
 
         System.err.println("XXX targetName: ${targetName}")
+        System.err.println("XXX jsBundleDir: ${jsBundleDir}")
+        // /Users/mmoeller/workspace/straiqr/phiber-app/android/app/build/generated/assets/react/release
         // XXX targetName: Debug
         // XXX targetName: Release
 
@@ -37,11 +31,12 @@ afterEvaluate {
           group = "react-native-mo-fontlink"
           description = "react-native-mo-fontlink: bundle font link for ${targetName}"
           dependsOn("copy${targetName}BundledJs")
+
+          commandLine("node", "-v")
+
           doLast {
             System.err.println("XXX fontLinkTask doLast")
-            // exec {
-            //   commandLine("node", "")
-            // }
+            commandLine("node", "-v")
           }
         }
         packageTask.dependsOn(fontLinkTask)

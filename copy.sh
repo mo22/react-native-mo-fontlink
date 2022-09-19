@@ -9,7 +9,7 @@ fi
 
 if [ "$1" == "from" ]; then
   cp -r $DIR/node_modules/react-native-mo-fontlink/ios/ReactNativeMoFontlink ./ios/
-  cp -r $DIR/node_modules/react-native-mo-fontlink/{README.md,src} .
+  cp -r $DIR/node_modules/react-native-mo-fontlink/{README.md,src,*.gradle,*.podspec} .
   cp -r $DIR/node_modules/react-native-mo-fontlink/android/{src,build.gradle} ./android/
 fi
 
