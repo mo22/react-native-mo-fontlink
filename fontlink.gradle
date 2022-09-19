@@ -1,3 +1,4 @@
+def reactRoot = file(config.root ?: "../../")
 
 afterEvaluate {
     def isAndroidLibrary = plugins.hasPlugin("com.android.library")
