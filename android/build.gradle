@@ -17,24 +17,3 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'
 }
-
-afterEvaluate {
-    System.err.println("XXX Hello")
-
-    def isAndroidLibrary = plugins.hasPlugin("com.android.library")
-    def variants = isAndroidLibrary ? android.libraryVariants : android.applicationVariants
-    variants.all { def variant ->
-
-        // Create variant and target names
-        def targetName = variant.name.capitalize()
-        def targetPath = variant.dirName
-
-        // React js bundle directories
-        def jsBundleDir = file("$buildDir/generated/assets/react/${targetPath}")
-        def resourcesDir = file("$buildDir/generated/res/react/${targetPath}")
-
-        System.err.println("XXX targetName: ${targetName}")
-
-    }
-
-}

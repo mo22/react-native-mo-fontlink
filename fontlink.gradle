@@ -1,0 +1,66 @@
+
+afterEvaluate {
+    System.err.println("android.libraryVariants=${android.libraryVariants}")
+    System.err.println("android.applicationVariants=${android.applicationVariants}")
+    def isAndroidLibrary = plugins.hasPlugin("com.android.library")
+    System.err.println("isAndroidLibrary=${isAndroidLibrary}")
+    def variants = isAndroidLibrary ? android.libraryVariants : android.applicationVariants
+    variants.all { def variant ->
+
+        // Create variant and target names
+        def targetName = variant.name.capitalize()
+        def targetPath = variant.dirName
+
+        // packageApplication for Android plugin 3.x
+        def packageTask = variant.hasProperty("packageApplication")
+            ? variant.packageApplicationProvider.get()
+            : tasks.findByName("package${targetName}")
+        // if (variant.hasProperty("packageLibrary")) {
+        //     packageTask = variant.packageLibrary
+        // }
+        System.err.println("XXX packageTask: ${packageTask}")
+
+        // React js bundle directories
+        def jsBundleDir = file("$buildDir/generated/assets/react/${targetPath}")
+        def resourcesDir = file("$buildDir/generated/res/react/${targetPath}")
+
+        System.err.println("XXX targetName: ${targetName}")
+        // XXX targetName: Debug
+        // XXX targetName: Release
+
+        // System.err.println("variant.ext.bundleJsAndAssets: ${variant.ext.bundleJsAndAssets}")
+
+        def fontLinkTask = tasks.create(
+          name: "bundle${targetName}FontLink",
+          type: Exec
+        ) {
+          group = "react-native-mo-fontlink"
+          description = "react-native-mo-fontlink: bundle font link for ${targetName}"
+          dependsOn("copy${targetName}BundledJs")
+          doLast {
+            System.err.println("XXX fontLinkTask doLast")
+            // exec {
+            //   commandLine("node", "")
+            // }
+          }
+        }
+        packageTask.dependsOn(fontLinkTask)
+
+
+        // def buildPreBundleTask = tasks.findByName("build${targetName}PreBundle")
+
+        // def currentBundleTask = tasks.create(
+        //     name: "bundle${targetName}JsAndAssets",
+        //     type: Exec) {
+        //     group = "react"
+        //     description = "bundle JS and assets for ${targetName}."
+
+        //     def currentAssetsCopyTask = tasks.create(
+        // name: "copy${targetName}BundledJs",
+        // type: Copy) {
+        // group = "react"
+        // description = "copy bundled JS into ${targetName}."
+
+    }
+
+}
