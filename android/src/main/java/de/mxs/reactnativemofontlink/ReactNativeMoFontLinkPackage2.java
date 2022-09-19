@@ -10,17 +10,17 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-public final class ReactNativeMoFontlinkPackage implements ReactPackage {
+public final class ReactNativeMoFontLinkPackage implements ReactPackage {
 
     @Override
     public @Nonnull List<ViewManager> createViewManagers(@Nonnull ReactApplicationContext reactContext) {
-        Log.i("XXX", "ReactNativeMoFontlinkPackage.createViewManagers");
+        Log.i("XXX", "ReactNativeMoFontLinkPackage.createViewManagers");
         return Collections.emptyList();
     }
 
     @Override
     public @Nonnull List<NativeModule> createNativeModules(@Nonnull ReactApplicationContext reactContext) {
-        Log.i("XXX", "ReactNativeMoFontlinkPackage.createNativeModules");
+        Log.i("XXX", "ReactNativeMoFontLinkPackage.createNativeModules");
         return Collections.emptyList();
     }
 
