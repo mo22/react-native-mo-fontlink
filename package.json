@@ -1,6 +1,6 @@
 {
   "name": "react-native-mo-fontlink",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "react-native automatically check and link fonts",
   "files": [
     "package.json",

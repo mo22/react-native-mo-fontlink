@@ -71,14 +71,9 @@ if (require.main === module) {
 
     const fontlinkData: string[] = [];
     for (const fontFile of fontFiles) {
-      console.log('fontFile', fontFile);
       const data = await fs.promises.readFile(fontFile);
-      console.log('isFontFile', isFontFile(fontFile));
       const postScriptName = getPostScriptName(data);
-      console.log('getPostScriptName', postScriptName);
       const resourceName = path.basename(fontFile, path.extname(fontFile)).toLowerCase().replace(/[^a-z0-9]/g, '_');
-      console.log('resourceName', resourceName);
-      console.log('extname', path.extname(fontFile));
       if (!postScriptName) continue;
       fontlinkData.push(resourceName);
       fontlinkData.push(postScriptName);
