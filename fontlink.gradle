@@ -1,62 +1,64 @@
+// println "fontlink.gradle"
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+// com.android.build.gradle.internal.api.DefaultAndroidSourceDirectorySet
+// test=[/Users/mmoeller/workspace/straiqr/phiber-app/android/app/src/main/res]
+// println "test=" + android.sourceSets.main.res.srcDirs
+// android.sourceSets.main.assets.srcDirs += file("$buildDir/intermediates/ReactNativeVectorIcons")
+
+android.sourceSets.main.res.srcDirs += file("$buildDir/intermediates/fontlink")
+
+def config = project.hasProperty("react") ? project.react : [:];
 def reactRoot = file(config.root ?: "../../")
 
 afterEvaluate {
-    def isAndroidLibrary = plugins.hasPlugin("com.android.library")
-    def variants = isAndroidLibrary ? android.libraryVariants : android.applicationVariants
-    variants.all { def variant ->
+    // println "fontlink.gradle afterEvaluate"
 
-        def targetName = variant.name.capitalize()
-        def targetPath = variant.dirName
+    // def config = project.hasProperty("vectoricons") ? project.vectoricons : [];
+    // def iconFontsDir = config.iconFontsDir ?: "../../node_modules/react-native-vector-icons/Fonts";
+    // def iconFontNames = config.iconFontNames ?: [ "*.ttf" ];
 
-        def packageTask = variant.hasProperty("packageApplication")
-            ? variant.packageApplicationProvider.get()
-            : tasks.findByName("package${targetName}")
-        System.err.println("XXX packageTask: ${packageTask}")
+    def linkReactNativeFontsTask = tasks.create(
+        name: "linkReactNativeFonts",
+        type: Exec,
+    ) {
+        // println "fontlink.gradle task"
 
-        // React js bundle directories
-        def jsBundleDir = file("$buildDir/generated/assets/react/${targetPath}")
-        def resourcesDir = file("$buildDir/generated/res/react/${targetPath}")
+        // println "buildDir=$buildDir"
+        // buildDir=/Users/mmoeller/workspace/straiqr/phiber-app/android/app/build
 
-        System.err.println("XXX targetName: ${targetName}")
-        System.err.println("XXX jsBundleDir: ${jsBundleDir}")
-        // /Users/mmoeller/workspace/straiqr/phiber-app/android/app/build/generated/assets/react/release
-        // XXX targetName: Debug
-        // XXX targetName: Release
-
-        // System.err.println("variant.ext.bundleJsAndAssets: ${variant.ext.bundleJsAndAssets}")
-
-        def fontLinkTask = tasks.create(
-          name: "bundle${targetName}FontLink",
-          type: Exec
-        ) {
-          group = "react-native-mo-fontlink"
-          description = "react-native-mo-fontlink: bundle font link for ${targetName}"
-          dependsOn("copy${targetName}BundledJs")
-
-          commandLine("node", "-v")
-
-          doLast {
-            System.err.println("XXX fontLinkTask doLast")
-            commandLine("node", "-v")
-          }
+        def nodeExecutableAndArgs = config.nodeExecutableAndArgs ?: ["node"]
+        def execCommand = []
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            execCommand.addAll(["cmd", "/c", *nodeExecutableAndArgs])
+        } else {
+            execCommand.addAll([*nodeExecutableAndArgs])
         }
-        packageTask.dependsOn(fontLinkTask)
 
+        // into "$buildDir/intermediates/ReactNativeVectorIcons/fonts"
 
-        // def buildPreBundleTask = tasks.findByName("build${targetName}PreBundle")
+        // commandLine(*execCommand, "-e", "console.log('hello xxx');")
+        workingDir reactRoot
+        commandLine(
+            *execCommand,
+            "node_modules/react-native-mo-fontlink/lib/fontlink-android.js",
+            file("$buildDir/intermediates/fontlink").absolutePath,
+        )
 
-        // def currentBundleTask = tasks.create(
-        //     name: "bundle${targetName}JsAndAssets",
-        //     type: Exec) {
-        //     group = "react"
-        //     description = "bundle JS and assets for ${targetName}."
+        // doFirst {
+        //     println "fontlink.gradle task doFirst"
+        // }
 
-        //     def currentAssetsCopyTask = tasks.create(
-        // name: "copy${targetName}BundledJs",
-        // type: Copy) {
-        // group = "react"
-        // description = "copy bundled JS into ${targetName}."
+        // doLast {
+        //     println "fontlink.gradle task doLast"
+        // }
 
     }
 
+    android.applicationVariants.all { def variant ->
+        def targetName = variant.name.capitalize()
+        def generateAssetsTask = tasks.findByName("generate${targetName}Assets")
+        generateAssetsTask.dependsOn(linkReactNativeFontsTask)
+    }
 }
