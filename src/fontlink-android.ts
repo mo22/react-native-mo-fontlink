@@ -45,8 +45,8 @@ if (require.main === module) {
     const variant = process.argv[3];
     const buildDir = process.argv[4];
 
-    await fs.promises.mkdir(path.join(resDir, 'font'), { recursive: true });
-    await fs.promises.mkdir(path.join(resDir, 'values'), { recursive: true });
+    await fs.promises.mkdir(path.join(resDir, 'font', variant), { recursive: true });
+    await fs.promises.mkdir(path.join(resDir, 'values', variant), { recursive: true });
 
     const fontFiles: string[] = [];
 
