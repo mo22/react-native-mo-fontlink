@@ -9,32 +9,35 @@ import com.facebook.react.views.text.ReactFontManager;
 import java.util.Collections;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.graphics.Typeface;
-import android.util.Log;
 
-import androidx.annotation.FontRes;
+import androidx.annotation.ArrayRes;
 
 import javax.annotation.Nonnull;
 
 public final class ReactNativeMoFontLinkPackage implements ReactPackage {
-
-    private void addFonts(@Nonnull ReactApplicationContext reactContext) {
-        ReactFontManager fontManager = ReactFontManager.getInstance();
-        @SuppressLint("ResourceType") @FontRes() int id = 123;
-        Typeface typeface = reactContext.getResources().getFont(id);
-        fontManager.addCustomFont("Test Font", typeface);
+    public void setupFonts(@Nonnull ReactApplicationContext reactContext) {
+        @ArrayRes() int configID = reactContext.getResources().getIdentifier("fontlink", "array", reactContext.getPackageName());
+        if (configID != 0) {
+            ReactFontManager fontManager = ReactFontManager.getInstance();
+            String[] config = reactContext.getResources().getStringArray(configID);
+            for (int i=0; i<config.length; i+=2) {
+                int id = reactContext.getResources().getIdentifier(config[i], "font", reactContext.getPackageName());
+                String name = config[i+1];
+                Typeface typeface = reactContext.getResources().getFont(id);
+                fontManager.addCustomFont(name, typeface);
+            }
+        }
     }
 
     @Override
     public @Nonnull List<ViewManager> createViewManagers(@Nonnull ReactApplicationContext reactContext) {
-        Log.i("XXX", "ReactNativeMoFontLinkPackage.createViewManagers");
+        setupFonts(reactContext);
         return Collections.emptyList();
     }
 
     @Override
     public @Nonnull List<NativeModule> createNativeModules(@Nonnull ReactApplicationContext reactContext) {
-        Log.i("XXX", "ReactNativeMoFontLinkPackage.createNativeModules");
         return Collections.emptyList();
     }
 
