@@ -1,63 +1,38 @@
-// println "fontlink.gradle"
-
 import org.apache.tools.ant.taskdefs.condition.Os
 
-// com.android.build.gradle.internal.api.DefaultAndroidSourceDirectorySet
-// test=[/Users/mmoeller/workspace/straiqr/phiber-app/android/app/src/main/res]
-// println "test=" + android.sourceSets.main.res.srcDirs
-// android.sourceSets.main.assets.srcDirs += file("$buildDir/intermediates/ReactNativeVectorIcons")
-
+// cleaner by variant?
 android.sourceSets.main.res.srcDirs += file("$buildDir/intermediates/fontlink")
 
 def config = project.hasProperty("react") ? project.react : [:];
 def reactRoot = file(config.root ?: "../../")
 
 afterEvaluate {
-    // println "fontlink.gradle afterEvaluate"
-
-    // def config = project.hasProperty("vectoricons") ? project.vectoricons : [];
-    // def iconFontsDir = config.iconFontsDir ?: "../../node_modules/react-native-vector-icons/Fonts";
-    // def iconFontNames = config.iconFontNames ?: [ "*.ttf" ];
-
-    def linkReactNativeFontsTask = tasks.create(
-        name: "linkReactNativeFonts",
-        type: Exec,
-    ) {
-        // println "fontlink.gradle task"
-
-        // println "buildDir=$buildDir"
-        // buildDir=/Users/mmoeller/workspace/straiqr/phiber-app/android/app/build
-
-        def nodeExecutableAndArgs = config.nodeExecutableAndArgs ?: ["node"]
-        def execCommand = []
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            execCommand.addAll(["cmd", "/c", *nodeExecutableAndArgs])
-        } else {
-            execCommand.addAll([*nodeExecutableAndArgs])
-        }
-
-        // into "$buildDir/intermediates/ReactNativeVectorIcons/fonts"
-
-        // commandLine(*execCommand, "-e", "console.log('hello xxx');")
-        workingDir reactRoot
-        commandLine(
-            *execCommand,
-            "node_modules/react-native-mo-fontlink/lib/fontlink-android.js",
-            file("$buildDir/intermediates/fontlink").absolutePath,
-        )
-
-        // doFirst {
-        //     println "fontlink.gradle task doFirst"
-        // }
-
-        // doLast {
-        //     println "fontlink.gradle task doLast"
-        // }
-
-    }
 
     android.applicationVariants.all { def variant ->
         def targetName = variant.name.capitalize()
+
+        def linkReactNativeFontsTask = tasks.create(
+            name: "linkReactNativeFonts${targetName}",
+            type: Exec,
+        ) {
+            def nodeExecutableAndArgs = config.nodeExecutableAndArgs ?: ["node"]
+            def execCommand = []
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                execCommand.addAll(["cmd", "/c", *nodeExecutableAndArgs])
+            } else {
+                execCommand.addAll([*nodeExecutableAndArgs])
+            }
+
+            workingDir reactRoot
+            commandLine(
+                *execCommand,
+                "node_modules/react-native-mo-fontlink/lib/fontlink-android.js",
+                file("$buildDir/intermediates/fontlink").absolutePath,
+                variant.dirName,
+                buildDir,
+            )
+        }
+
         def generateAssetsTask = tasks.findByName("generate${targetName}Assets")
         generateAssetsTask.dependsOn(linkReactNativeFontsTask)
     }
